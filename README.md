@@ -18,7 +18,7 @@ This log file include a human readable portion for the user to keep track of the
 4. use Qt commandline tool and navigate to current build directory
 5. run this command```windeployqt WorkTimer.exe```
 
-###Mac
+### Mac
 1. Open the project in Qt Creator
 2. Select a Release build
 3. Build the project
