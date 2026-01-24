@@ -18,9 +18,6 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    int LoadTime();
-    void SaveTime();
-
 public:
 
 
@@ -42,12 +39,23 @@ private slots:
 
     void on_minus5m_clicked();
 
+    int LoadTime();
+    
+    void SaveTime();
+
+    long GetTime();
+
+    void TimerStop();
+
+    void TimerStart();
+
 private:
     QChronoTimer* timer = nullptr;  //timer for updating currentTime
     FileHandler* handler;   //file handler. Prevents creation of multiple
     QString path;   //path to folder storing log file
     QString fileName = "worklog";   // file name for log
     int currentTime = 0;    //time tracker in seconds
+    QDateTime cycleStart; //tracks time at start of current cycle
 
     Ui::MainWindow *ui;
 };

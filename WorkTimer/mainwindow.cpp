@@ -90,6 +90,13 @@ QString SecondsToTimeString(int intTime){
     return output;
 }
 
+//gets actual time difference
+long MainWindow::GetTime(){
+    //get difference between initial time and live time
+    long dif = cycleStart.secsTo(QDateTime::currentDateTime());
+    return currentTime+dif;
+}
+
 //Initializes program
 MainWindow::MainWindow(QWidget *parent)
     :QMainWindow(parent), ui(new Ui::MainWindow)
@@ -104,14 +111,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     //creates new timer with 1 second interval
     timer = new QChronoTimer(this);
-    std::chrono::seconds interval{1};
+    std::chrono::milliseconds interval{100};
     timer->setInterval(interval);
 
     //function called by timer
     timer->callOnTimeout(this,[this](){
         //increment time and update text
-        ++currentTime;
-        this->ui->Time->setText(SecondsToTimeString(currentTime));
+        this->ui->Time->setText(SecondsToTimeString((int)MainWindow::GetTime()));
     });
 }
 
@@ -122,50 +128,65 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//start stop button
+//handles starting timer
+void MainWindow::TimerStart(){
+    cycleStart = QDateTime::currentDateTime();
+    timer->start();
+}
+
+//handles stopping timer
+void MainWindow::TimerStop(){
+    timer->stop();
+    currentTime = GetTime();
+    SaveTime();
+}
+
+//start/stop button
 void MainWindow::on_StartStop_clicked()
 {
     //starts timer and changes button text to Stop
     if(!timer->isActive()){
-        timer->start();
+        TimerStart();
         ui->StartStop->setText("Stop");
-
     }
     //stops timer and changes button text to Start
     else{
-        timer->stop();
+        TimerStop();
         ui->StartStop->setText("Start");
-        SaveTime();
     }
 }
 
 //adds 5 seconds to currentTime and updates UI
 void MainWindow::on_plus5s_clicked()
 {
+    TimerStop();
     currentTime+=5;
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
-
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
 //adds 1 minute to currentTime and updates UI
 void MainWindow::on_plus1m_clicked()
 {
+    TimerStop();
     currentTime+=60;
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
-
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
 //adds 5 minutes to currentTime and updates UI
 void MainWindow::on_plus5m_clicked()
 {
+    TimerStop();
     currentTime+=300;
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
-
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
 //subtracts 5 seconds from currentTime and updates UI
 void MainWindow::on_minus5s_clicked()
 {
+    TimerStop();
     //clamps minimum value to 0
     if(currentTime-5<0){
         currentTime=0;
@@ -173,13 +194,14 @@ void MainWindow::on_minus5s_clicked()
     else{
         currentTime -= 5;
     }
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
-
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
 //subtracts 1 minute from currentTime and updates UI
 void MainWindow::on_minus1s_clicked()
 {
+    TimerStop();
     //clamps minimum value to 0
     if(currentTime-60<0){
         currentTime=0;
@@ -187,12 +209,14 @@ void MainWindow::on_minus1s_clicked()
     else{
         currentTime -= 60;
     }
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
 //subtracts 5 minutes from currentTime and updates UI
 void MainWindow::on_minus5m_clicked()
 {
+    TimerStop();
     //clamps minimum value to 0
     if(currentTime-300<0){
         currentTime=0;
@@ -200,6 +224,7 @@ void MainWindow::on_minus5m_clicked()
     else{
         currentTime -= 300;
     }
-    this->ui->Time->setText(SecondsToTimeString(currentTime));
+    this->ui->Time->setText(SecondsToTimeString(GetTime()));
+    TimerStart();
 }
 
