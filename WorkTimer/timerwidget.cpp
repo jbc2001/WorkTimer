@@ -127,6 +127,7 @@ TimerWidget::TimerWidget(QWidget *parent, QString name, QString path)
 TimerWidget::~TimerWidget()
 {
     SaveTime();
+    delete handler;
     delete ui;
 }
 
