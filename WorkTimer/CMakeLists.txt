@@ -30,6 +30,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         filehandler.h filehandler.cpp
         resources.qrc
         ${app_icon_resource_windows}
+        timerwidget.h timerwidget.cpp timerwidget.ui
+        titleinput.h titleinput.cpp titleinput.ui
     )
 
 

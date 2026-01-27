@@ -18,6 +18,20 @@ bool FileHandler::EnsureFolderExists(const QString &folderPath)
     return true;
 }
 
+//returns list of all existing timer files
+std::vector<QString> FileHandler::GetAvailableFiles(QString path){
+    std::vector<QString> output;
+    QDir dir(path);
+    dir.setNameFilters({"*.txt"});
+    dir.setFilter(QDir::Files);
+
+    const QStringList files = dir.entryList();
+    for(const QString &file : files){
+        output.push_back(file);
+    }
+    return output;
+}
+
 //Saves text to path specified
 void FileHandler::SaveText(QString name, QString path, QString text){
 

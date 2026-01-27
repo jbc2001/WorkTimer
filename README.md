@@ -25,14 +25,8 @@ This log file include a human readable portion for the user to keep track of the
 4. open terminal and naviagate to the current build directory
 5. run this command ```macdeployqt WorkTimer.app```
 
-## Limitations
-- No project/task separation
-- Timer accuracy depends on system scheduling
-
 ## Possible Future Improvements
-- support for multiple timers or projects
 - CSV / JSON export
-- System-time–based elapsed tracking
 - User configurable storage location
   
 This is released freely under the MIT License. Feel free to use any of the code for learning or in your own projects
