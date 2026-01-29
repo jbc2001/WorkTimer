@@ -159,75 +159,78 @@ void TimerWidget::on_StartStop_clicked()
     }
 }
 
+//call to add time to timer
+void TimerWidget::AddTime(int seconds){
+    if(timer->isActive()){
+        TimerStop();
+        currentTime+=seconds;
+        ui->Time->setText(SecondsToTimeString(GetTime()));
+        TimerStart();
+    }
+    else{
+        currentTime+=seconds;
+        ui->Time->setText(SecondsToTimeString(currentTime));
+    }
+}
+
+//call to subtract time from timer
+void TimerWidget::SubtractTime(int seconds){
+    if(timer->isActive()){
+        TimerStop();
+        //clamps minimum value to 0
+        if(currentTime-seconds<0){
+            currentTime=0;
+        }
+        else{
+            currentTime -= seconds;
+        }
+        ui->Time->setText(SecondsToTimeString(GetTime()));
+        TimerStart();
+    }
+    else{
+        //clamps minimum value to 0
+        if(currentTime-seconds<0){
+            currentTime=0;
+        }
+        else{
+            currentTime -= seconds;
+        }
+        ui->Time->setText(SecondsToTimeString(currentTime));
+    }
+}
+
 //adds 5 seconds to currentTime and updates UI
 void TimerWidget::on_plus5s_clicked()
 {
-    TimerStop();
-    currentTime+=5;
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    AddTime(5);
 }
 
 //adds 1 minute to currentTime and updates UI
 void TimerWidget::on_plus1m_clicked()
 {
-    TimerStop();
-    currentTime+=60;
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    AddTime(60);
 }
 
 //adds 5 minutes to currentTime and updates UI
 void TimerWidget::on_plus5m_clicked()
 {
-    TimerStop();
-    currentTime+=300;
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    AddTime(300);
 }
 
 //subtracts 5 seconds from currentTime and updates UI
 void TimerWidget::on_minus5s_clicked()
 {
-    TimerStop();
-    //clamps minimum value to 0
-    if(currentTime-5<0){
-        currentTime=0;
-    }
-    else{
-        currentTime -= 5;
-    }
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    SubtractTime(5);
 }
 
 //subtracts 1 minute from currentTime and updates UI
 void TimerWidget::on_minus1s_clicked()
 {
-    TimerStop();
-    //clamps minimum value to 0
-    if(currentTime-60<0){
-        currentTime=0;
-    }
-    else{
-        currentTime -= 60;
-    }
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    SubtractTime(60);
 }
 
 //subtracts 5 minutes from currentTime and updates UI
 void TimerWidget::on_minus5m_clicked()
 {
-    TimerStop();
-    //clamps minimum value to 0
-    if(currentTime-300<0){
-        currentTime=0;
-    }
-    else{
-        currentTime -= 300;
-    }
-    ui->Time->setText(SecondsToTimeString(GetTime()));
-    TimerStart();
+    SubtractTime(300);
 }
-

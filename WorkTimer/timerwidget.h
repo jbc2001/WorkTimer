@@ -46,6 +46,10 @@ private slots:
     void TimerStop();
 
     void TimerStart();
+
+    void AddTime(int seconds);
+
+    void SubtractTime(int seconds);
 private:
     QChronoTimer* timer = nullptr;  //timer for updating currentTime
     FileHandler* handler;   //file handler. Prevents creation of multiple
