@@ -8,12 +8,20 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# === Windows application icon ===
 set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/appicon.rc")
+
+# === macOS application icon ===
+set(APP_ICON_MACOS "${CMAKE_CURRENT_SOURCE_DIR}/clock-icon.icns")
+set_source_files_properties(${APP_ICON_MACOS}
+    PROPERTIES
+    MACOSX_PACKAGE_LOCATION "Resources"
+)
 
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-# === Windows application icon ===
+
 
 set(PROJECT_SOURCES
         main.cpp
@@ -30,6 +38,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         filehandler.h filehandler.cpp
         resources.qrc
         ${app_icon_resource_windows}
+        ${APP_ICON_MACOS}
         timerwidget.h timerwidget.cpp timerwidget.ui
         titleinput.h titleinput.cpp titleinput.ui
     )
@@ -67,6 +76,7 @@ set_target_properties(WorkTimer PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE_ICON_FILE clock-icon.icns
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
